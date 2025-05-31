@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SoundPro - Tienda Digital</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00bfff;
+            --primary-dark: #008fcc;
+            --accent: #00ff99;
+            --background: #10131a;
+            --surface: rgba(255,255,255,0.08);
+            --surface-dark: #222;
+            --text: #fff;
+            --text-muted: #b0b8c1;
+            --radius: 16px;
+            --shadow: 0 4px 32px rgba(0,0,0,0.18);
+            --transition: 0.25s cubic-bezier(.4,0,.2,1);
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Montserrat', Arial, sans-serif;
+            color: var(--text);
+            min-height: 100vh;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .nav {
+            background: rgba(10,18,32,0.98);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+            padding: 0 0 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            min-height: 64px;
+        }
+        .nav a {
+            color: var(--text);
+            text-decoration: none;
+            margin: 0 22px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 12px 8px;
+            border-radius: 6px;
+            transition: background var(--transition), color var(--transition);
+            position: relative;
+        }
+        .nav a.active, .nav a:hover {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0,191,255,0.08);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto 32px auto;
+            background: rgba(16,19,26,0.92);
+            border-radius: var(--radius);
+            padding: 36px 24px 32px 24px;
+            box-shadow: var(--shadow);
+            animation: fadeIn 1s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: none;}
+        }
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .logo {
+            width: 400px; 
+            max-width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0,191,255,0.13);
+            flex-shrink: 0;
+            display: block;
+            margin: 0 auto;
+        }
+        .logo-description {
+            color: var(--text-muted);
+            font-size: 1.18rem;
+            font-weight: 500;
+            line-height: 1.6;
+            max-width: 520px;
+            background: rgba(0,0,0,0.18);
+            border-radius: 12px;
+            padding: 22px 28px;
+            box-shadow: 0 2px 8px rgba(0,191,255,0.06);
+            text-align: left;
+        }
+        @media (max-width: 900px) {
+            .logo-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 22px;
+            }
+            .logo-description {
+                padding: 14px 10px;
+                font-size: 1.07rem;
+                text-align: center;
+            }
+        }
+        h1 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .marquee {
+            background: rgba(0,0,0,0.5);
+            color: var(--text);
+            padding: 12px 0;
+            border-radius: 10px;
+            margin: 24px 0 32px 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: marquee 18s linear infinite;
+        }
+        @keyframes marquee {
+            0% { text-indent: 100%;}
+            100% { text-indent: -100%;}
+        }
+        .video-frame {
+            background: rgba(0,0,0,0.45);
+            border-radius: 20px;
+            box-shadow: 0 4px 32px rgba(0,191,255,0.10);
+            padding: 0;
+            max-width: 760px;
+            margin: 0 auto 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+        .inicio-video {
+            width: 100%;
+            height: 100%;
+            min-width: 0;
+            min-height: 0;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 0;
+            box-shadow: none;
+            background: #000;
+            display: block;
+        }
+        .play-btn {
+            margin-top: 18px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 38px;
+            font-size: 1.15em;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,191,255,0.10);
+            transition: background 0.2s;
+            letter-spacing: 1px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+        .video-frame {
+            position: relative;
+        }
+        .separador {
+            width: 100%;
+            height: 48px;
+            background: transparent;
+        }
+        .section {
+            display: none;
+            animation: fadeIn 0.7s;
+        }
+        .section.active {
+            display: block;
+        }
+        .catalog-title {
+            font-size: 1.7rem;
+            color: var(--primary);
+            margin-bottom: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .catalog-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
+        }
+        .catalog-item {
+            background: var(--surface);
+            border-radius: 14px;
+            padding: 22px 18px 18px 18px;
+            width: 270px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+            text-align: center;
+            transition: transform var(--transition), box-shadow var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .catalog-item:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 6px 32px rgba(0,191,255,0.18);
+            border: 1.5px solid var(--primary);
+        }
+        .catalog-item img {
+            width: 100%;
+            max-width: 180px;
+            border-radius: 10px;
+            background: transparent;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,191,255,0.08);
+        }
+        .catalog-item h2 {
+            color: var(--primary);
+            margin: 12px 0 6px 0;
+            font-size: 1.13rem;
+            font-weight: 700;
+        }
+        .catalog-item p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+        .catalog-item .price {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 18px;
+            margin: 8px 0;
+        }
+        .catalog-item button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(0,191,255,0.08);
+            transition: background var(--transition), box-shadow var(--transition);
+        }
+        .catalog-item button:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 16px rgba(0,191,255,0.18);
+        }
+        
+        .buy-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: var(--surface-dark);
+            padding: 32px 40px;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            min-width: 320px;
+            max-width: 420px;
+            color: var(--text);
+            animation: fadeIn 0.5s;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: var(--primary);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.08em;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            font-size: 15px;
+            background: #181c23;
+            color: var(--text);
+            margin-bottom: 4px;
+            outline: none;
+            transition: border var(--transition);
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border: 1.5px solid var(--primary);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 38px;
+            max-height: 120px;
+        }
+        .form-actions {
+            text-align: right;
+        }
+        .form-actions button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: 10px;
+            transition: background var(--transition);
+        }
+        .form-actions button[type="button"] {
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+        }
+        .form-actions button:hover {
+            background: var(--primary-dark);
+        }
+        .form-actions button[type="button"]:hover {
+            background: #333;
+        }
+        .secure-msg {
+            margin-top: 18px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.98em;
+            letter-spacing: 0.5px;
+        }
+        .secure-msg span {
+            vertical-align: middle;
+            font-size: 1.1em;
+        }
+        .custom-alert-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+        .custom-alert-box {
+            background: #23293a;
+            color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            padding: 36px 28px 28px 28px;
+            max-width: 95vw;
+            width: 370px;
+            text-align: center;
+            font-family: 'Montserrat', Arial, sans-serif;
+            animation: popIn 0.35s;
+            position: relative;
+        }
+        .custom-alert-box h3 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 1.35em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .custom-alert-box p {
+            color: #e2e8f0;
+            font-size: 1.08em;
+            margin-bottom: 18px;
+            margin-top: 0;
+            line-height: 1.5;
+        }
+        .custom-alert-box .custom-alert-btn {
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 32px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,191,255,0.10);
+            transition: background 0.2s;
+        }
+        .custom-alert-box .custom-alert-btn:hover {
+            background: var(--primary-dark);
+        }
+        .custom-alert-box .custom-alert-icon {
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            color: var(--primary);
+            display: block;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+       
+        @media (max-width: 900px) {
+            .catalog-grid { flex-direction: column; align-items: center; }
+            .container { padding: 16px 4px; }
+            .modal-content { padding: 18px 6vw; }
+        }
+        @media (max-width: 600px) {
+            .container { padding: 8px 0; }
+            .modal-content { padding: 10px 2vw; }
+            .nav { font-size: 16px; }
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            showSection('inicio');
+        };
+
+        function showBuyForm() {
+            document.getElementById('buyModal').style.display = 'flex';
+        }
+
+        function closeBuyForm() {
+            document.getElementById('buyModal').style.display = 'none';
+        }
+
+        function togglePaymentFields(method) {
+            document.getElementById('cardFields').style.display = (method === 'debito' || method === 'credito') ? 'block' : 'none';
+            document.getElementById('paypalField').style.display = (method === 'paypal') ? 'block' : 'none';
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(section).classList.add('active');
+            document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+            document.getElementById('nav-' + section).classList.add('active');
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const buyForm = document.querySelector('#buyModal form');
+            if (buyForm) {
+                buyForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    closeBuyForm();
+                    setTimeout(() => {
+                        showCustomAlert(
+                            "¡Gracias por tu compra!",
+                            "Tu pedido ha sido recibido y está siendo procesado.<br>En breve recibirás un correo de confirmación con los detalles de tu compra.<br><br>Si tienes alguna pregunta, contáctanos a <b>SoundPro@gmail.com.do</b> o al <b>829-758-0905</b>.<br><br>¡Gracias por confiar en SoundPro!"
+                        );
+                    }, 300);
+                });
+            }
+        });
+
+        function showCustomAlert(title, message) {
+          
+            const old = document.getElementById('custom-alert-overlay');
+            if (old) old.remove();
+
+            const overlay = document.createElement('div');
+            overlay.className = 'custom-alert-overlay';
+            overlay.id = 'custom-alert-overlay';
+
+            const box = document.createElement('div');
+            box.className = 'custom-alert-box';
+
+            box.innerHTML = `
+                <span class="custom-alert-icon">✅</span>
+                <h3>${title}</h3>
+                <p>${message}</p>
+                <button class="custom-alert-btn" onclick="document.getElementById('custom-alert-overlay').remove()">Cerrar</button>
+            `;
+
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+        }
+
+        function playInicioVideo() {
+            const video = document.getElementById('inicioVideo');
+            const btn = document.getElementById('playVideoBtn');
+            video.play();
+            btn.style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    
+    <div id="buyModal" class="buy-modal">
+        <div class="modal-content">
+            <h2>Finalizar compra</h2>
+            <form autocomplete="on" style="display:flex;flex-direction:column;gap:0;">
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required autocomplete="email" aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="address">Dirección de envío</label>
+                    <input type="text" id="address" name="address" placeholder="Calle, número, ciudad, país" required autocomplete="street-address" aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="payment">Método de pago</label>
+                    <select id="payment" name="payment" required onchange="togglePaymentFields(this.value)" aria-required="true">
+                        <option value="">Seleccione...</option>
+                        <option value="debito">Tarjeta de Débito</option>
+                        <option value="credito">Tarjeta de Crédito</option>
+                        <option value="paypal">PayPal</option>
+                    </select>
+                </div>
+                <div id="cardFields" style="display:none;">
+                    <div class="form-group">
+                        <label for="cardNumber">Número de tarjeta</label>
+                        <input type="text" id="cardNumber" name="cardNumber" inputmode="numeric" pattern="[0-9\s]{13,19}" maxlength="19" placeholder="1234 5678 9012 3456" autocomplete="cc-number" aria-required="true">
+                    </div>
+                    <div style="display:flex;gap:12px;">
+                        <div class="form-group" style="flex:1;">
+                            <label for="expiry">Vencimiento</label>
+                            <input type="month" id="expiry" name="expiry" autocomplete="cc-exp" aria-required="true">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" name="cvv" inputmode="numeric" pattern="\d{3,4}" maxlength="4" placeholder="123" autocomplete="cc-csc" aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardName">Nombre en la tarjeta</label>
+                        <input type="text" id="cardName" name="cardName" placeholder="Como aparece en la tarjeta" autocomplete="cc-name" aria-required="true">
+                    </div>
+                </div>
+                <div id="paypalField" style="display:none;">
+                    <div class="form-group">
+                        <label for="paypalEmail">Correo de PayPal</label>
+                        <input type="email" id="paypalEmail" name="paypalEmail" placeholder="usuario@paypal.com" autocomplete="email" aria-required="true">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:18px;">
+                    <label for="notes">Notas para el pedido <span style="color:var(--text-muted);font-size:0.95em;">(opcional)</span></label>
+                    <textarea id="notes" name="notes" rows="2" placeholder="Ej: Entregar en horario laboral"></textarea>
+                </div>
+                <div class="form-actions" style="margin-top:18px;">
+                    <button type="button" onclick="closeBuyForm()">Cancelar</button>
+                    <button type="submit" style="background:linear-gradient(90deg,var(--primary),var(--primary-dark));font-weight:700;box-shadow:0 2px 8px rgba(0,191,255,0.10);">Pagar ahora</button>
+                </div>
+                <div class="secure-msg">
+                    <span>🔒</span> Tus datos están protegidos y cifrados.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <nav class="nav">
+        <a id="nav-inicio" class="active" onclick="showSection('inicio')">Inicio</a>
+        <a id="nav-altavoces" onclick="showSection('altavoces')">Altavoces</a>
+        <a id="nav-subwoofer" onclick="showSection('subwoofer')">Subwoofer</a>
+        <a id="nav-amplificadores" onclick="showSection('amplificadores')">Amplificadores</a>
+        <a id="nav-cajones" onclick="showSection('cajones')">Cajones</a>
+        <a id="nav-tweeters" onclick="showSection('tweeters')">Tweeters</a>
+        <a id="nav-ecualizadores" onclick="showSection('ecualizadores')">Ecualizadores</a>
+        <a id="nav-contacto" onclick="showSection('contacto')">Contacto</a>
+    </nav>
+
+    <div class="container">
+       
+        <section id="inicio" class="section active">
+            <div class="logo-section">
+                <img class="logo" src="c:\Users\fizan\Downloads\SoundPro.jpg" alt="SoundPro">
+                <div class="logo-description">
+                    <strong>SoundPro</strong> es tu tienda virtual profesional especializada en la venta de equipos de sonido, altavoces, subwoofers, amplificadores y accesorios de audio de alta calidad.<br>
+                    Descubre la mejor tecnología para potenciar tu experiencia musical, con atención personalizada y envíos a todo el país.
+                </div>
+            </div>
+            <h1>¡Tu mundo de la música empieza aquí!</h1>
+            <div class="marquee">
+                Redes sociales: SoundPro@gmail.com.do &nbsp; 829-758-0905
+            </div>
+            <div class="video-frame">
+                <video class="inicio-video" id="inicioVideo" poster="images/poster.jpg" muted loop playsinline style="display:block;">
+                    <source src="video/Comando.mp4" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+                <button class="play-btn" id="playVideoBtn" onclick="playInicioVideo()">▶ Iniciar Video</button>
+            </div>
+        </section>
+        <div class="separador"></div>
+        
+        <section id="altavoces" class="section">
+            <div class="catalog-title">Catálogo de <span style="color: var(--primary);">Altavoces</span></div>
+            <div class="catalog-grid">
+                <div class="catalog-item">
+                    <img src="images/CX8PE31-PRO-DIAONAL1-2024-WEB.webp" alt="Altavoz 1">
+                    <h2>Comando CX8PE31-PRO</h2>
+                    <p>ALTAVOZ DE RANGO MEDIO DE 8'' PARA AUDIO PROFESIONAL | 1600 W MÁXIMO | 8 Ω</p>
+                    <p class="price">$100 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+                <div class="catalog-item">
+                    <img src="images/DIAGONAL1-CX6PE21-WEB.webp" alt="Altavoz 2">
+                    <h2>Comando CX6PE21</h2>
+                    <p>6,5'' | 1000W MÁXIMO | 8Ω</p>
+                    <p class="price">$80 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+                <div class="catalog-item">
+                    <img src="images/ECO-1003X-DIAGONAL.webp" alt="Altavoz 3">
+                    <h2>Comando ECO-1003X</h2>
+                    <p>10'' 300W MÁX. | BOBINA 8Ω.</p>
+                    <p class="price">$90 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+            </div>
+        </section>
+        <section id="subwoofer" class="section">
+            <div class="catalog-title"><span style="color: var(--primary);">Subwoofer</span></div>
+            <div class="catalog-grid">
+                <div class="catalog-item">
+                    <img src="images/LATERALARRIBA_89d7d65a-f457-447e-8c2d-b9d873fe05f4.webp" alt="Subwoofer 1">
+                    <h2>Comando CRX-FORCE15 PRO</h2>
+                    <p>15'' | 6000W MÁXIMO | Doble 4Ω</p>
+                    <p class="price">$708.09 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+                <div class="catalog-item">
+                    <img src="images/ARRIBALATERAL_e56f5f32-b91e-4d74-b5d4-49dd5c8830a9.webp" alt="Subwoofer 2">
+                    <h2>Comando CRX-FUERZA12</h2>
+                    <p>12'' | 6000W MÁXIMO | Doble 4Ω</p>
+                    <p class="price">$589.00 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+            </div>
+        </section>
+        <section id="amplificadores" class="section">
+            <div class="catalog-title"><span style="color: var(--primary);">Amplificadores</span></div>
+            <div class="catalog-grid">
+                <div class="catalog-item">
+                    <img src="images/CRX4-3600_1FRONTAL.webp" alt="Amplificador 1">
+                    <h2>Amplificador Comando 6600</h2>
+                    <p>CRX4-3600 a 1 ohmio | 3600 W MÁXIMO | 4 CANALES | 1 Ω</p>
+                    <p class="price">$320 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+                <div class="catalog-item">
+                    <img src="images/COMANDO-PLANTA-DIAGONAL-4_a5c09a02-1ab9-41ff-9e54-102d12b159fe.webp" alt="Amplificador 2">
+                    <h2>Amplificador Comando 3600</h2>
+                    <p>CRX4-3600 | 3600W | 4 canales | 2Ω</p>
+                    <p class="price">$219.91 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+            </div>
+        </section>
+        <section id="cajones" class="section">
+            <div class="catalog-title">Catálogo de <span style="color: var(--primary);">Cajones</span></div>
+            <div class="catalog-grid">
+                <div class="catalog-item">
+                    <img src="images/cajon1.jpg" alt="Cajón 1">
+                    <h2>Cajón Bass Reflex 12"</h2>
+                    <p>Cajón profesional para subwoofer de 12", MDF reforzado, acabado premium.</p>
+                    <p class="price">$120 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+                <div class="catalog-item">
+                    <img src="images/cajon2.jpg" alt="Cajón 2">
+                    <h2>Cajón Sellado 15"</h2>
+                    <p>Ideal para bajos profundos, compatible con subwoofers de 15".</p>
+                    <p class="price">$140 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+            </div>
+        </section>
+        <section id="tweeters" class="section">
+            <div class="catalog-title">Catálogo de <span style="color: var(--primary);">Tweeters</span></div>
+            <div class="catalog-grid">
+                <div class="catalog-item">
+                    <img src="images/tweeter1.jpg" alt="Tweeter 1">
+                    <h2>Tweeter Piezoeléctrico Pro</h2>
+                    <p>Alta sensibilidad, respuesta de 3.5kHz a 20kHz, 100W.</p>
+                    <p class="price">$25 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+                <div class="catalog-item">
+                    <img src="images/tweeter2.jpg" alt="Tweeter 2">
+                    <h2>Tweeter Bala 300W</h2>
+                    <p>Potencia máxima 300W, sonido brillante y nítido.</p>
+                    <p class="price">$35 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+            </div>
+        </section>
+        <section id="ecualizadores" class="section">
+            <div class="catalog-title">Catálogo de <span style="color: var(--primary);">Ecualizadores</span></div>
+            <div class="catalog-grid">
+                <div class="catalog-item">
+                    <img src="images/ecualizador1.jpg" alt="Ecualizador 1">
+                    <h2>Ecualizador Digital 7 Bandas</h2>
+                    <p>Control preciso de frecuencias, entrada RCA, salida estéreo.</p>
+                    <p class="price">$65 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+                <div class="catalog-item">
+                    <img src="images/ecualizador2.jpg" alt="Ecualizador 2">
+                    <h2>Ecualizador Analógico 15 Bandas</h2>
+                    <p>Ideal para estudios y DJs, rango completo de ajuste.</p>
+                    <p class="price">$110 USD</p>
+                    <button onclick="showBuyForm()">Comprar</button>
+                </div>
+            </div>
+        </section>
+        <section id="contacto" class="section">
+            <h1><span style="color: var(--primary);">Contacto</span></h1>
+            <p>
+                ¿Tienes dudas? Escríbenos a
+                <a href="mailto:SoundPro@gmail.com.do" style="color:var(--primary);">SoundPro@gmail.com.do</a>
+                o llámanos al
+                <a
+                    href="https://wa.me/18297580905?text=Hola%2C%20quisiera%20recibir%20informaci%C3%B3n%20adicional%20sobre%20sus%20productos%20de%20audio.%20Agradezco%20su%20atenci%C3%B3n."
+                    style="color:var(--primary);text-decoration:underline;"
+                    target="_blank"
+                    rel="noopener"
+                >829-758-0905</a>
+            </p>
+        </section>
+    </div>
+</body>
+</html>
